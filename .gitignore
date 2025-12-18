@@ -3,7 +3,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.so
-Results/
+*Results*/
 Demo/
 init.sh
 llava_dataloader.py

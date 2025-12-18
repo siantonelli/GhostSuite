@@ -80,12 +80,8 @@ class GhostEngineManager:
         # Attach to optimizer
         self.engine.attach(self.optimizer)
         
-        # Validate that validation data is provided
-        if self.X_val is None or self.Y_val is None:
-            raise ValueError("X_val and Y_val are required for GradDotProd method")
-        
-        # Attach validation data to the engine
-        self.engine.attach_and_store_valset(self.X_val, self.Y_val)
+        if self.X_val is not None and self.Y_val is not None:
+            self.engine.attach_and_store_valset(self.X_val, self.Y_val)
         
         print("[INFO] GradDotProdEngine initialized successfully.")
     
@@ -139,6 +135,11 @@ class GhostEngineManager:
         """Attach training batch information to the engine (if applicable)."""
         if self.engine and hasattr(self.engine, 'attach_train_batch'):
             self.engine.attach_train_batch(X_train, Y_train, iter_num, batch_idx)
+
+    def update_validation_data(self, X_val, Y_val):
+        """Update the validation data used for ghost engines."""
+        self.X_val = X_val
+        self.Y_val = Y_val
     
     def prepare_gradients(self):
         """Prepare gradients after backward pass (if applicable)."""
